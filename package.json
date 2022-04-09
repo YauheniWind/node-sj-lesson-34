@@ -1,7 +1,7 @@
 {
   "name": "lesson_34",
   "version": "1.0.0",
-  "description": "",
+  "description": "- GET http://cats-application.com/api/cat READ -> getCats() <- Получение всех котов  - GET http://cats-application.com/api/cat/10 READ -> getCatById() <- Получение одного котика по айди - POST { \"name\": \"Murzik\", \"image\": \"someurl\" } http://cats-application.com/api/cat CREATE -> createNewCatId() -> createCat(id) <- id | Cat - PUT { \"name\": \"Barsik\" } http://cats-application.com/api/cat/10 UPDATE -> updateCatById(id, catData) <- id - DELETE http://cats-application.com/api/cat/id -> removeCatBydId(id) <- id",
   "main": "index.js",
   "scripts": {
     "go": "nodemon src/main.js --ignore 'src/**/*.json'"
@@ -16,5 +16,13 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YauheniWind/node-sj-lesson-34.git"
+  },
+  "bugs": {
+    "url": "https://github.com/YauheniWind/node-sj-lesson-34/issues"
+  },
+  "homepage": "https://github.com/YauheniWind/node-sj-lesson-34#readme"
 }

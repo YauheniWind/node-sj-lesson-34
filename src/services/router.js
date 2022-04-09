@@ -1,5 +1,11 @@
 const router = require('find-my-way')()
 const catController = require('../controller/cat')
+const userController = require('../controller/cat')
+
+router.on('GET', '/user/:userID', async (req, res, params) => {
+    const result = await userController.getUsers(res, params.userID)
+    res.end(JSON.stringify(result))
+})
 
 router.on('GET', '/cat', async (req, res) => {
     const result = await catController.getCats()

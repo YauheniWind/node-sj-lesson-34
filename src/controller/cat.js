@@ -1,5 +1,8 @@
 const catModel = require('../model/cat')
+const userModel = require('../model/cat')
 const { v4: uuid } = require('uuid')
+
+// console.log(userModel)
 
 const getNotFoundResponse = (res) => {
     res.writeHead(404)
@@ -52,6 +55,14 @@ const createCache = () => {
 }
 
 const cache = createCache()
+
+exports.getUsers = async (res, userId) => {
+    const users = await cache(userId, userModel.fetchUserById, res)
+    // if (!users.lenght) {
+    //     return getNotFoundResponse(res)
+    // }
+    return users
+}
 
 exports.getCats = async () => {
     const cats = await catModel.fetchAllCats()

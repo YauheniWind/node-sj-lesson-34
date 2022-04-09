@@ -2,6 +2,7 @@ const { createReadStream, writeFile } = require('fs')
 const path = require('path')
 
 const dbJsonPath = path.resolve(process.cwd(), 'src/services/db_cats.json')
+const dbUserJsonPath = path.resolve('/Users/evgenijgravdin/Desktop/node-sj-lesson-34/src/services/db_user.json')
 
 const readJSONAsync = (path) => new Promise((resolve) => {
     const readStream = createReadStream(path)
@@ -33,6 +34,13 @@ exports.fetchAllCats = () => {
 exports.fetchCatById = async (id) => {
     const cats = await readJSONAsync(dbJsonPath)
     return cats.find((cat) => cat.id === id)
+}
+
+exports.fetchUserById = async (id) => {
+    const users = await readJSONAsync(dbUserJsonPath)
+    // console.log(users)
+
+    return users.find((user) => user.id === id)
 }
 
 exports.addNewCat = async (data) => {
