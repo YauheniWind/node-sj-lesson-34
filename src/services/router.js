@@ -6,7 +6,10 @@ router.on('GET', '/user/:userID', async (req, res, params) => {
     const result = await userController.getUsers(res, params.userID)
     res.end(JSON.stringify(result))
 })
-
+router.on('GET', '/user', async (req, res) => {
+    const result = await userController.getUsersWithoutAnimals()
+    res.end(JSON.stringify(result))
+})
 router.on('GET', '/cat', async (req, res) => {
     const result = await catController.getCats()
     res.end(JSON.stringify(result))

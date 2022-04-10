@@ -37,10 +37,24 @@ exports.fetchCatById = async (id) => {
 }
 
 exports.fetchUserById = async (id) => {
+    const allCats = await readJSONAsync(dbJsonPath)
     const users = await readJSONAsync(dbUserJsonPath)
-    // console.log(users)
+    // console.log(all)
+    let pets = allCats.filter((owner) => owner.ownerId == id)
+    let userID = users.find((user) => user.id === id)
+    if (userID) {
+        return [userID, pets]
+    }
+}
 
-    return users.find((user) => user.id === id)
+// получить всех юзеров
+// получить всех зверей
+// найти айди зверей и людей 
+// сравнить есть ли похожие 
+exports.fetchAllUsersWithoutAnimal = async () => {
+    const allCats = await readJSONAsync(dbJsonPath)
+    const users = await readJSONAsync(dbUserJsonPath)
+    console.log([allCats.ownerId, users.id])
 }
 
 exports.addNewCat = async (data) => {

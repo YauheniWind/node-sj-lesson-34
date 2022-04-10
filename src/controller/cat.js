@@ -58,9 +58,18 @@ const cache = createCache()
 
 exports.getUsers = async (res, userId) => {
     const users = await cache(userId, userModel.fetchUserById, res)
+    if (!users) {
+        return getNotFoundResponse(res)
+    }
+    return users
+}
+
+exports.getUsersWithoutAnimals = async () => {
+    const users = await userModel.fetchAllUsersWithoutAnimal()
     // if (!users.lenght) {
     //     return getNotFoundResponse(res)
     // }
+    console.log(users)
     return users
 }
 
