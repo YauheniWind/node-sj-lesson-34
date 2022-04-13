@@ -25,10 +25,27 @@ router.on('POST', '/cat', async (req, res) => {
     res.end(JSON.stringify(result))
 })
 
+router.on('POST', '/user', async (req, res) => {
+    const result = await userController.createUser(req)
+    res.end(JSON.stringify(result))
+})
+
 router.on('PUT', '/cat/:catId', async (req, res, { catId }) => {
     const result = await catController.updateCatById(req, res, catId)
     res.end(JSON.stringify(result))
 })
+
+router.on('PUT', '/user/:userID', async (req, res, { userID }) => {
+    const result = await userController.updateUserById(req, res, userID)
+    res.end(JSON.stringify(result))
+})
+
+router.on("DELETE", "/user/:userId", async (req, res, { userId }) => {
+    const result = await userController.deleteUserById(res, userId);
+
+    res.end(JSON.stringify(result));
+});
+
 
 router.on('DELETE', '/cat/:catId', async (req, res, { catId }) => {
     const result = await catController.deleteCatById(res, catId)

@@ -54,13 +54,33 @@ exports.fetchUserById = async (id) => {
 exports.fetchAllUsersWithoutAnimal = async () => {
     const allCats = await readJSONAsync(dbJsonPath)
     const users = await readJSONAsync(dbUserJsonPath)
-    console.log([allCats.ownerId, users.id])
+    return users
+}
+
+exports.addNewUser = async (data) => {
+    const users = await readJSONAsync(dbUserJsonPath)
+    console.log('New USER', data)
+    users.push(data)
+    await writeJSONAsync(dbUserJsonPath, users)
 }
 
 exports.addNewCat = async (data) => {
     const cats = await readJSONAsync(dbJsonPath)
     cats.push(data)
     await writeJSONAsync(dbJsonPath, cats)
+}
+
+exports.userUpdate = async (dataOfNewUser) => {
+    const users = await readJSONAsync(dbUserJsonPath)
+    const foundUserIndex = users.findIndex(user => user.id === dataOfNewUser.id);
+
+    if (foundUserIndex === -1) {
+        return false
+    }
+
+    users[foundUserIndex] = dataOfNewUser
+    await writeJSONAsync(dbUserJsonPath, users)
+    return true
 }
 
 exports.update = async (dataOfNewCat) => {
@@ -73,6 +93,26 @@ exports.update = async (dataOfNewCat) => {
     await writeJSONAsync(dbJsonPath, cats)
     return true
 }
+
+exports.delete = async (id) => {
+    const dbUsers = await readJSONAsync(dbJsonPath);
+    let userBeenFound = false;
+
+    const filteredUsers = dbUsers.users.filter((user) => {
+        if (user.id !== id) {
+            return true;
+        }
+        userBeenFound = true;
+        return false;
+    });
+
+    if (userBeenFound) {
+        await writeJSONAsync(dbJsonPath, { users: filteredUsers });
+        return true;
+    }
+
+    return false;
+};
 
 exports.delete = async (id) => {
     // 1 взять всех котов

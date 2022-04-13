@@ -61,15 +61,22 @@ exports.getUsers = async (res, userId) => {
     if (!users) {
         return getNotFoundResponse(res)
     }
+
+    const catsDb = await catModel.fetchAllCats();
+    const cats = catsDb.cats.filter((cat) => {
+        if (cat.ownerId) {
+            return cat.ownerId === user.id;
+        }
+
+        return false;
+    });
+
+    user.pets = cats;
     return users
 }
 
 exports.getUsersWithoutAnimals = async () => {
     const users = await userModel.fetchAllUsersWithoutAnimal()
-    // if (!users.lenght) {
-    //     return getNotFoundResponse(res)
-    // }
-    console.log(users)
     return users
 }
 
@@ -98,6 +105,15 @@ exports.createCat = async (req) => {
     }
 }
 
+exports.createUser = async (req) => {
+    const userData = await parseJsonBody(req)
+    userData.id = uuid()
+    await userModel.addNewUser(userData)
+    return {
+        userData
+    }
+}
+
 exports.updateCatById = async (req, res, catId) => {
     const updateData = await parseJsonBody(req)
     const cat = await catModel.fetchCatById(catId)
@@ -108,6 +124,29 @@ exports.updateCatById = async (req, res, catId) => {
     }
     return updatedCat
 }
+
+
+exports.updateUserById = async (req, res, userId) => {
+    const updateData = await parseJsonBody(req)
+    const user = await userModel.fetchUserById(userId)
+    const updatedUser = { ...user, ...updateData }
+    const updateResult = await userModel.userUpdate(updatedUser)
+    if (!updateResult) {
+        return getNotFoundResponse(res)
+    }
+    return updateResult
+}
+
+exports.deleteUserById = async (res, userId) => {
+    const updateResult = await userModel.delete(userId);
+
+    if (!updateResult) {
+        return getNotFoundResponse(res);
+    }
+
+    return { id: userId };
+};
+
 
 exports.deleteCatById = async (res, catId) => {
     const updateResult = await catModel.delete(catId)
