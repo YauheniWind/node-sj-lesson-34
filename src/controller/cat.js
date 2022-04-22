@@ -82,9 +82,9 @@ exports.getUsersWithoutAnimals = async () => {
 
 exports.getCats = async () => {
     const cats = await catModel.fetchAllCats()
-    if (!cats.lenght) {
-        return getNotFoundResponse(res)
-    }
+    // if (!cats.lenght) {
+    //     return getNotFoundResponse(res)
+    // }
     return cats
 }
 
